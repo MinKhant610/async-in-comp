@@ -1,19 +1,28 @@
 {
-    "posts" : [
-        {
-            "id" : 1,
-            "title" : "post title 1",
-            "body" : "lorem ipsum"
-        },
-        {
-            "id" : 2,
-            "title" : "post title 2",
-            "body" : "lorem ipsum"
-        },
-        {
-            "id" : 3,
-            "title" : "post title 3",
-            "body" : "lorem ipsum"
-        }
-    ]
+  "posts": [
+    {
+      "id": 1,
+      "title": "post title 1",
+      "body": "lorem ipsum"
+    },
+    {
+      "id": 2,
+      "title": "post title 2",
+      "body": "lorem ipsum"
+    },
+    {
+      "id": 3,
+      "title": "post title 3",
+      "body": "lorem ipsum"
+    },
+    {
+      "title": "Python",
+      "body": "Python is very popular programming langue and really powerful for AI developing.",
+      "tags": [
+        "python",
+        "programming"
+      ],
+      "id": 4
+    }
+  ]
 }

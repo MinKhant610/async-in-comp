@@ -7,35 +7,38 @@
       <PostList :posts="posts"></PostList>
     </div>
     <div v-else>
-      loading...
+      <Spinner></Spinner>
     </div>
   </div>
 </template>
 
 <script>
+import Spinner from '../components/Spinner'
 import { ref } from 'vue'
+import getPosts from "../composables/getPosts"
 
 import PostList from '../components/PostList'
 export default {
-  components: { PostList },
+  components: {
+    Spinner, PostList },
   setup(){
-    let posts = ref([]);
-    let error = ref("");
-    let load = async ()=>{
-      try{
-        let response = await fetch("http://localhost:3000/posts")
-        if (response.status === 404){
-          throw new Error("Not found URL");
-        }
-        let datas = await response.json();
-        posts.value = datas;
-      }catch(err){
-        error.value = err.message;
-      }
-    }
+    
+    let {posts, error, load} = getPosts();
     load();
     return {posts, error}
   }
 }
 </script>
- 
+
+<style>
+  .home {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 10px;
+  }
+  .layout{
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    gap:20px;
+  }
+</style>
