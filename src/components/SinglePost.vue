@@ -5,7 +5,7 @@
         </router-link>
         <p> {{ cutPostBody }}</p> 
         <div v-for="tag in post.tags" :key="tag" class="pill">
-            {{ tag }}
+            <router-link :to="{name:'tag', params:{tag:tag}}">{{ tag }}</router-link>
         </div>
     </div>
 </template>
@@ -23,7 +23,7 @@ import { computed } from 'vue'
     }
 </script>
 
-<style >
+<style scoped>
     .post {
         margin: 0 40px 30px;
         padding-bottom: 30px;

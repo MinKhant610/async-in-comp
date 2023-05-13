@@ -5,11 +5,6 @@ let getPosts = ()=>{
     let error = ref("");
     let load = async ()=>{
       try{
-        // to test loading feature so I create my own promise
-        await new Promise((resolve, reject)=>{
-          setTimeout(resolve, 2000);
-        })
-        // my own promise end and real code start
         let response = await fetch("http://localhost:3000/posts")
         if (response.status === 404){
           throw new Error("Not found URL");
