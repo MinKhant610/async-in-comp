@@ -8,7 +8,7 @@
         <PostList :posts="posts"></PostList>
       </div>
       <div>
-        <TagCloud></TagCloud>
+        <TagCloud :posts="posts"></TagCloud>
       </div>
     </div>
     <div v-else>
@@ -47,5 +47,8 @@ export default {
     /* 3fr 4 of 3 and 1fr = 4 of 1 */
     grid-template-columns: 3fr 1fr;
     gap:20px;
+  }
+  a{
+    text-decoration: none;
   }
 </style>
