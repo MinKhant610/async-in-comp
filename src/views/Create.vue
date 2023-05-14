@@ -9,16 +9,16 @@
 
         <label>Tags(hit enter to add a tag)</label>
         <input type="text" @keydown.enter.prevent="handleKeydown" v-model="tag">
-
-        <button>Add Post</button>
         <div v-for="tag in tags" :key="tag" class="pill">
             {{ tag }}
         </div>
+        <button>Add Post</button>
     </form>
 </template>
 
 <script>
 import { ref } from 'vue'
+import { db, timestamp } from '@/firebase/config';
 // to use router 
 import { useRouter } from 'vue-router';
     export default {
@@ -28,7 +28,7 @@ import { useRouter } from 'vue-router';
             let body = ref("");
             let tag = ref("");
             let tags = ref([]);
-
+            
             let handleKeydown = ()=>{
                 if (!tags.value.includes(tag.value) && tag.value.length > 0){
                     tags.value.push(tag.value);
@@ -37,19 +37,16 @@ import { useRouter } from 'vue-router';
             }
 
             let addPost = async ()=>{
-                await fetch("http://localhost:3000/posts", {
-                    method : "POST",
-                    headers : {
-                        "Content-type" : "application/json"
-                    },
-                    body : JSON.stringify({
-                        title : title.value,
-                        body : body.value,
-                        tags : tags.value,
-                    })
-                })
+                let newPost = {
+                title : title.value,
+                body : body.value,
+                tags : tags.value,
+                created_at : timestamp()
+                }
+                // push data to firebase 
+                let response = await db.collection("posts").add(newPost)
                 //redirect user to home page
-                router.push({name:'home'})
+                router.push("/")
             }
 
             return {title, body, tag, tags, handleKeydown, addPost}
@@ -57,7 +54,7 @@ import { useRouter } from 'vue-router';
     }
 </script>
 
-<style scoped>
+<style>
   h1{
     text-align: center;
   }
@@ -103,6 +100,7 @@ import { useRouter } from 'vue-router';
     background: #ff8800;
     color: white;
     border: none;
+    box-shadow: 5px 5px gray;
     padding: 8px 16px;
     font-size: 18px;
     cursor: pointer;
