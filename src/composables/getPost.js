@@ -6,8 +6,9 @@ let getPost = (id)=>{
     let load = async ()=>{
         try{
             // doc(id) => boz we need single post
-            let doc = await db.collection("posts").doc(id).get()
-            post.value = {id:doc.id, ...doc.data()}
+            db.collection("posts").doc(id).onSnapshot((snap)=>{
+                post.value = {id: snap.id, ...snap.data()}
+            })
         }catch(err){
             error.value = err.message;
         }

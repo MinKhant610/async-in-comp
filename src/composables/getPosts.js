@@ -6,9 +6,10 @@ let getPosts = ()=>{
     let error = ref("");
     let load = async ()=>{
       try{
-        let response = await db.collection("posts").orderBy("created_at", "desc").get()
-        posts.value = response.docs.map((doc)=> {
-          return {id:doc.id, ...doc.data()}
+        db.collection("posts").orderBy("created_at", "desc").onSnapshot((snap)=>{
+          posts.value = snap.docs.map((doc)=>{
+            return {id: doc.id, ...doc.data()}
+          })
         })
       }catch(err){
         error.value = err.message;
