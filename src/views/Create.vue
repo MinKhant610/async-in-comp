@@ -10,7 +10,7 @@
         <label>Tags(hit enter to add a tag)</label>
         <input type="text" @keydown.enter.prevent="handleKeydown" v-model="tag">
         <div v-for="tag in tags" :key="tag" class="pill">
-            {{ tag }}
+            {{ tag }} <span class="cross" @click="delTag(tag)">&#10006;</span>
         </div>
         <button>Add Post</button>
     </form>
@@ -28,6 +28,11 @@ import { useRouter } from 'vue-router';
             let body = ref("");
             let tag = ref("");
             let tags = ref([]);
+
+            // delete tag
+            let delTag = (del_tag)=>{
+              tags.value = tags.value.filter(tag => tag != del_tag)
+            }
             
             let handleKeydown = ()=>{
                 if (!tags.value.includes(tag.value) && tag.value.length > 0){
@@ -49,7 +54,7 @@ import { useRouter } from 'vue-router';
                 router.push("/")
             }
 
-            return {title, body, tag, tags, handleKeydown, addPost}
+            return {title, body, tag, tags, handleKeydown, addPost, delTag}
         }
     }
 </script>
@@ -100,7 +105,6 @@ import { useRouter } from 'vue-router';
     background: #ff8800;
     color: white;
     border: none;
-    box-shadow: 5px 5px gray;
     padding: 8px 16px;
     font-size: 18px;
     cursor: pointer;
@@ -113,6 +117,12 @@ import { useRouter } from 'vue-router';
     padding: 8px;
     border-radius: 20px;
     font-size: 14px;
+  }
+
+  .cross{
+    color: red;
+    align-items: center;
+    cursor: pointer;
   }
 
 </style>

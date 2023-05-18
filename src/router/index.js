@@ -18,7 +18,7 @@ const routes = [
     props : true
   },
   {
-    path : '/create',
+    path : '/admindash',
     name : 'create',
     component : Create
   },
