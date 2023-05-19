@@ -2,7 +2,9 @@
     <div v-if="post" class="post">
         <h2>{{ post.title }}</h2>
         <p>{{ post.body }}</p>
-        <button class="delete" @click="deletePost">Delete Post</button>
+        <div v-if="admin">
+          <button class="delete" @click="deletePost">Delete Post</button>
+        </div>
     </div>
     <div v-else>
         <Spinner></Spinner>
@@ -16,11 +18,19 @@ import getPost from "../composables/getPost"
 import { useRoute } from 'vue-router';
 import { useRouter } from 'vue-router';
 import { db} from '@/firebase/config';
+import getUser from '@/composables/getUser';
+import { ref } from 'vue';
 
     export default {
   components: { Spinner },
         props : ['id'],
         setup(props){
+            let {user} = getUser();
+            let admin = ref(false);
+            console.log(user.value.displayName)
+            if (user.value.displayName === 'minkhant'){
+              admin = true
+            }
             // when to use this.$route.params.id
             let route = useRoute(); // same => this.$route
             let router = useRouter();
@@ -31,7 +41,7 @@ import { db} from '@/firebase/config';
                 await db.collection("posts").doc(id).delete();
                 router.push({name:'home'})
             }
-            return {post, error, load, deletePost}
+            return {post, error, load, deletePost, admin}
         }
     }
 </script>

@@ -1,8 +1,9 @@
 <template>
     <header>
+      <img src="@/assets/logo.jpg" alt="mechatronic logo" class="logo" @click="goHome">
         <nav>
-          <img src="@/assets/logo.jpg" alt="mechatronic logo" class="logo" @click="goHome">
-            <h1>Only focous what you want</h1>
+          <router-link :to="{name:'home'}">Home</router-link>
+          <router-link :to="{name:'login'}">Login / Sign up</router-link>
         </nav>
     </header>
 </template>
@@ -35,9 +36,9 @@ import { useRouter } from 'vue-router';
     width: 100px;
     cursor: pointer;
   }
-  nav{
+  header{
     display: flex;
-    /* justify-content: space-between; */
+    justify-content: space-between;
     align-items: center;
     max-width: 1200px;
     margin: 0 auto;
@@ -47,7 +48,7 @@ import { useRouter } from 'vue-router';
     color: #dfdfdf;
     font-size: 48px;
   }
-  /* header a {
+  header a {
     color: #bbb;
     text-decoration: none;
     margin-left: 20px;
@@ -55,5 +56,5 @@ import { useRouter } from 'vue-router';
   header a.router-link-active {
     color: #444;
     font-weight: bold;
-  } */
+  }
 </style>

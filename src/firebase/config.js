@@ -1,19 +1,21 @@
 import firebase from "firebase/app";
 import "firebase/firestore"
+import "firebase/auth"
 
 const firebaseConfig = {
-    apiKey: "AIzaSyDazibtqFLvPxWosPnxDZfvbecO-tz0c3I",
-    authDomain: "vue-blog-9e9cb.firebaseapp.com",
-    projectId: "vue-blog-9e9cb",
-    storageBucket: "vue-blog-9e9cb.appspot.com",
-    messagingSenderId: "710465538952",
-    appId: "1:710465538952:web:6b8ec1ba541bf03287883d"
-};
+    apiKey: "AIzaSyCYYPvhDAIiKfQaWwSUFu7kIKAxhy7A9Hg",
+    authDomain: "codewithchill.firebaseapp.com",
+    projectId: "codewithchill",
+    storageBucket: "codewithchill.appspot.com",
+    messagingSenderId: "164188301714",
+    appId: "1:164188301714:web:d752465d6811ad6c21794b"
+  };
 
 // init firebase
 firebase.initializeApp(firebaseConfig)
 
 // database setup
 let db = firebase.firestore();
+let auth = firebase.auth();
 let timestamp = firebase.firestore.FieldValue.serverTimestamp
-export {db, timestamp};
+export {db, timestamp, auth};

@@ -3,6 +3,8 @@ import HomeView from '../views/HomeView.vue'
 import Detail from '../views/Detail.vue'
 import Create from '../views/Create.vue'
 import Tag from '../views/Tag.vue'
+import LoginView from '../views/LoginView.vue'
+import { auth } from '@/firebase/config'
 
 
 const routes = [
@@ -18,9 +20,17 @@ const routes = [
     props : true
   },
   {
-    path : '/admindash',
+    path : '/create',
     name : 'create',
-    component : Create
+    component : Create,
+    beforeEnter: (to, from, next) => {
+      let user = auth.currentUser;
+      if(user.displayName === 'minkhant'){
+        next();
+      }else{
+        next({name:'home'})
+      }
+    }
   },
   {
     //prps should true when we use dynamic tag 
@@ -29,6 +39,12 @@ const routes = [
     name :'tag',
     component:Tag,
     props : true
+  },
+  {
+    path : '/login',
+    name : 'login',
+    component : LoginView,
+
   }
 ]
 
