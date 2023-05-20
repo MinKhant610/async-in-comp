@@ -5,6 +5,7 @@ import Create from '../views/Create.vue'
 import Tag from '../views/Tag.vue'
 import LoginView from '../views/LoginView.vue'
 import { auth } from '@/firebase/config'
+import Info from '../views/AccountInfo.vue'
 
 
 const routes = [
@@ -45,6 +46,11 @@ const routes = [
     name : 'login',
     component : LoginView,
 
+  },
+  {
+    path : '/info',
+    name : 'info',
+    component : Info
   }
 ]
 

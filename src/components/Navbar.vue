@@ -3,23 +3,53 @@
       <img src="@/assets/logo.jpg" alt="mechatronic logo" class="logo" @click="goHome">
         <nav>
           <router-link :to="{name:'home'}">Home</router-link>
-          <router-link :to="{name:'login'}">Login / Sign up</router-link>
+          <span v-if="admin">
+            <router-link :to="{name:'create'}">Create Post</router-link>
+          </span>
+          <span v-if="not_guest || admin ">
+            <router-link :to="{name :'info'}">Profile</router-link>
+          </span>
+          <span v-else>
+            <router-link :to="{name:'login'}">Login / Sign up</router-link>
+          </span>
         </nav>
     </header>
 </template>
 
 <script>
-import { ref } from 'vue';
+import { onUpdated, ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
+import getUser from '@/composables/getUser';
+import { auth } from '@/firebase/config';
     export default {
-        setup(){
+        setup(props){
           let router = useRouter();
-          let search_key = ref(null);
+          let {user} = getUser();
+          let admin = ref(false);
+          let not_guest = ref(true);
+ 
+          // still reload error
+          if (user.value.displayName === 'minkhant'){
+            admin.value = true;
+            }
+          if(user.value.displayName === null){
+              not_guest.value = false;
+            }
+          // watch(user, ()=>{
+          //   if (user.value.displayName === 'minkhant'){
+          //     admin.value = true;
+          //     }
+          //   if(user.value.displayName === null){
+          //     not_guest.value = false;
+          //     }
+          // })
+
+          console.log('admin:',admin.value, 'guest:', not_guest.value)
           // this function will rediret home page
           let goHome = ()=>{
             router.push("/");
           }
-          return {goHome, search_key};
+          return {goHome, admin, not_guest};
         }
     }
 </script>
