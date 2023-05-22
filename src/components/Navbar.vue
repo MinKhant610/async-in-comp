@@ -37,19 +37,22 @@ import { auth } from '@/firebase/config';
               not_guest.value = true;
             }
 
-          watch(user,()=>{
-            if (user.value === null){
-                console.log('user null')
-            }
-            if(user.value.displayName != 'guest'){
-              not_guest.value = true;
-            }
-            console.log('Name :',user.value.displayName)
-            if (user.value.displayName === 'minkhant'){
-              admin.value = true;
-            }
-            console.log('work2')
-          })
+            watch(user, () => {
+                if (user.value === null) {
+                    not_guest.value = false; // Set not_guest to false when user is null
+                    admin.value = false; // Set admin to false when user is null
+                }else {
+                    if (user.value.displayName === 'minkhant') {
+                        admin.value = true;
+                    }
+                    if (user.value.displayName !== 'guest') {
+                        not_guest.value = true;
+                    } else {
+                    not_guest.value = false;
+                    }
+                }
+            });
+
   
           // this function will rediret home page
           let goHome = ()=>{
