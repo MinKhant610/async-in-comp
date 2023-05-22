@@ -15,16 +15,14 @@ import { useRouter } from 'vue-router';
             let logout = async ()=>{
                 await logoutAcc();
                 router.push('/');
-
-                if (error){
-                    console.log(error)
-                }
             }
             return {logout}
         }
     }
 </script>
 
-<style>
-
+<style scoped>
+button{
+    margin: 0 auto;
+}
 </style>

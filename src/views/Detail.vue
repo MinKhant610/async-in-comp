@@ -27,7 +27,6 @@ import { ref } from 'vue';
         setup(props){
             let {user} = getUser();
             let admin = ref(false);
-            console.log(user.value.displayName)
             if (user.value.displayName === 'minkhant'){
               admin = true
             }

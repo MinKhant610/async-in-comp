@@ -28,11 +28,12 @@ import { auth } from '@/firebase/config';
           let {user} = getUser();
           let admin = ref(false);
           let not_guest = ref(false);
- 
+        
+          //when reload this condition will work
           if (user.value.displayName === 'minkhant'){
             admin.value = true;
             }
-            
+          //when reload this condition will work
             if(user.value.displayName != 'guest'){
               not_guest.value = true;
             }

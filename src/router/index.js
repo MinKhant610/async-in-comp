@@ -6,6 +6,7 @@ import Tag from '../views/Tag.vue'
 import LoginView from '../views/LoginView.vue'
 import { auth } from '@/firebase/config'
 import Info from '../views/AccountInfo.vue'
+import Notfound from '../views/Notfound.vue'
 
 
 const routes = [
@@ -45,12 +46,32 @@ const routes = [
     path : '/login',
     name : 'login',
     component : LoginView,
+    beforeEnter: (to, from, next) => {
+      let user = auth.currentUser;
+      if(user.displayName === 'guest'){
+        next();
+      }else{
+        next({name:'home'})
+      }
+    }
 
   },
   {
     path : '/info',
     name : 'info',
-    component : Info
+    component : Info,
+    beforeEnter: (to, from, next) => {
+      let user = auth.currentUser;
+      if(user.displayName != 'guest'){
+        next();
+      }else{
+        next({name:'home'})
+      }
+    }
+  },
+  {
+    path : '/:catchAll(.*)',
+    component : Notfound
   }
 ]
 
