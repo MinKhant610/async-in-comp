@@ -17,39 +17,45 @@
 </template>
 
 <script>
-import { onUpdated, ref, watch } from 'vue';
+import { ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import getUser from '@/composables/getUser';
 import { auth } from '@/firebase/config';
+
     export default {
         setup(props){
           let router = useRouter();
           let {user} = getUser();
           let admin = ref(false);
-          let not_guest = ref(true);
+          let not_guest = ref(false);
  
-          // still reload error
           if (user.value.displayName === 'minkhant'){
             admin.value = true;
             }
-          if(user.value.displayName === null){
-              not_guest.value = false;
+            
+            if(user.value.displayName != 'guest'){
+              not_guest.value = true;
             }
-          // watch(user, ()=>{
-          //   if (user.value.displayName === 'minkhant'){
-          //     admin.value = true;
-          //     }
-          //   if(user.value.displayName === null){
-          //     not_guest.value = false;
-          //     }
-          // })
 
-          console.log('admin:',admin.value, 'guest:', not_guest.value)
+          watch(user,()=>{
+            if (user.value === null){
+                console.log('user null')
+            }
+            if(user.value.displayName != 'guest'){
+              not_guest.value = true;
+            }
+            console.log('Name :',user.value.displayName)
+            if (user.value.displayName === 'minkhant'){
+              admin.value = true;
+            }
+            console.log('work2')
+          })
+  
           // this function will rediret home page
           let goHome = ()=>{
             router.push("/");
           }
-          return {goHome, admin, not_guest};
+          return {goHome, admin, not_guest, user};
         }
     }
 </script>
