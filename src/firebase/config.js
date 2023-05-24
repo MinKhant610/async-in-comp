@@ -1,6 +1,7 @@
 import firebase from "firebase/app";
 import "firebase/firestore"
 import "firebase/auth"
+import "firebase/storage"
 
 const firebaseConfig = {
     apiKey: "AIzaSyCYYPvhDAIiKfQaWwSUFu7kIKAxhy7A9Hg",
@@ -18,4 +19,6 @@ firebase.initializeApp(firebaseConfig)
 let db = firebase.firestore();
 let auth = firebase.auth();
 let timestamp = firebase.firestore.FieldValue.serverTimestamp
-export {db, timestamp, auth};
+// to store profile picture
+let storage = firebase.storage();
+export {db, timestamp, auth, storage};
