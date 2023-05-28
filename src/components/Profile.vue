@@ -1,19 +1,22 @@
 <template>
-    <div>
+    <div class="name" v-if="user && user.displayName">
         <input type="file" accept="image/*" 
         @change="uploadHandler" 
-        ref="fileInput">
-        <div v-if="user && user.displayName" class="profile_img">
-            <h3>{{ user.displayName }}</h3>
-        </div>
+        ref="fileInput" style="display: none;">
+        <div class="profile_img"></div> <!-- profile will show in this div-->
+        <h3>
+          {{ user.displayName }} 
+          <i class="fa-solid fa-camera" style="color: #ff8800;"
+          @click="$refs.fileInput.click()"></i>
+        </h3>
     </div>
 </template>
 
 <script>
-import { database } from '@/firebase/config'
 import getUser from '@/composables/getUser';
 import imageUpload from '@/composables/imageUpload';
 import getImage from '@/composables/getImage'
+import { onMounted, onUpdated } from 'vue';
     export default {
         setup(){
           let {user} = getUser();
@@ -23,16 +26,25 @@ import getImage from '@/composables/getImage'
           // write data
           let uploadHandler = (event)=>{
             imageUpload(event, user);
+            localStorage.removeItem('imgurl');
             }
 
           // read data 
-          getImage(userId, defalut_image);
-          
+          onMounted(()=>{
+            getImage(userId, defalut_image);
+          })
+
           return {uploadHandler, user}
         }
     }
 </script>
 
 <style>
+.img_and_name i{
+  cursor: pointer;
+}
+.name{
+  margin-top: 20px;
+}
 
 </style>

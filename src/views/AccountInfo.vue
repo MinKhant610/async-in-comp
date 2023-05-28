@@ -1,10 +1,12 @@
 <template>
-    <h1>
-        Account Info
+    <div class="container">
+        <div>
+            <Profile></Profile>
+        </div>
+        
+        <div>
             <button @click="logout">Logout</button>
-    </h1>
-    <div>
-        <Profile></Profile>
+        </div>
     </div>
 </template>
 
@@ -28,7 +30,15 @@ import { useRouter } from 'vue-router';
 </script>
 
 <style scoped>
-button{
-    margin: 0 auto;
+.container{
+    display: flex;
+    justify-content: space-around;
+    max-width: 900px;
+    margin: 80px auto;
+    border-radius: 20px;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 2px 4px 6px 4px rgba(28, 6, 49, 0.1);
 }
+
 </style>
