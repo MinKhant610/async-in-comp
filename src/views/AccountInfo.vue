@@ -3,7 +3,9 @@
         <div>
             <Profile></Profile>
         </div>
-        
+        <div>
+            <JoinDate></JoinDate>
+        </div>
         <div>
             <button @click="logout">Logout</button>
         </div>
@@ -11,12 +13,14 @@
 </template>
 
 <script>
+import JoinDate from '../components/JoinDate'
 import Profile from '../components/Profile'
 import useLogout from '@/composables/useLogout';
 import { useRouter } from 'vue-router';
 
     export default {
-  components: { Profile },
+  components: {
+    JoinDate, Profile },
         setup(props, content){
         let {error, logoutAcc} = useLogout();
         let router = useRouter();
@@ -33,6 +37,7 @@ import { useRouter } from 'vue-router';
 .container{
     display: flex;
     justify-content: space-around;
+    align-items: center;
     max-width: 900px;
     margin: 80px auto;
     border-radius: 20px;
@@ -40,5 +45,7 @@ import { useRouter } from 'vue-router';
     border-radius: 20px;
     box-shadow: 2px 4px 6px 4px rgba(28, 6, 49, 0.1);
 }
-
+button {
+    margin-bottom: 30px;
+}
 </style>

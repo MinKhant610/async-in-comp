@@ -40,7 +40,7 @@ import { onMounted, onUpdated } from 'vue';
 </script>
 
 <style>
-.img_and_name i{
+.fa-camera{
   cursor: pointer;
 }
 .name{
