@@ -7,8 +7,8 @@
         </div>
         <div>
           <i class="fa-solid fa-bookmark" 
-          :class="{active : save_toggle}"
-           @click="savedPost">
+          :class="{active : post.save_post}"
+           @click="savePostHandle">
           </i>
           <div class="hide">Save Post</div>
         </div>
@@ -27,6 +27,7 @@ import { useRouter } from 'vue-router';
 import { db} from '@/firebase/config';
 import getUser from '@/composables/getUser';
 import { ref } from 'vue';
+import savedPost from '@/composables/savePost'
 
     export default {
   components: { Spinner },
@@ -40,30 +41,21 @@ import { ref } from 'vue';
             // when to use this.$route.params.id
             let route = useRoute(); // same => this.$route
             let router = useRouter();
-            let save_toggle = ref(false)
+            let save_toggle = ref(false);
+            
             let {post, error, load} = getPost(route.params.id);
-            load();
+            load(); // show post detail
+
             let deletePost = async()=>{
                 let id = props.id
                 await db.collection("posts").doc(id).delete();
                 router.push({name:'home'})
             }
-            let savedPost = async()=>{
-              save_toggle.value = !save_toggle.value
-              console.log(save_toggle.value)
-              // let id = props.id;
-              // let icon = document.querySelector('.fa-bookmark');
-              // let dbRef = db.collection("posts").doc(id)
-              // let updateDb = db.collection("posts").doc(id).onSnapshot(()=>{
-              //   dbRef.update({
-              //   save_post : true
-              //   })
-              // })
-              // if (updateDb){
-              //   icon.style.color = "#ff8800";
-              // }
+            
+            let savePostHandle = ()=>{
+              savedPost(save_toggle, props.id)
             }
-            return {post, error, load, deletePost, admin, savedPost, save_toggle}
+            return {post, error, load, deletePost, admin, savePostHandle, save_toggle}
         }
     }
 </script>
