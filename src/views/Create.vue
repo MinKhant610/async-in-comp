@@ -28,6 +28,7 @@ import { useRouter } from 'vue-router';
             let body = ref("");
             let tag = ref("");
             let tags = ref([]);
+            let save_post = ref(false);
 
             // delete tag
             let delTag = (del_tag)=>{
@@ -46,6 +47,7 @@ import { useRouter } from 'vue-router';
                 title : title.value,
                 body : body.value,
                 tags : tags.value,
+                save_post : save_post.value,
                 created_at : timestamp()
                 }
                 // push data to firebase 

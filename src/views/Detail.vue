@@ -5,6 +5,13 @@
         <div v-if="admin">
           <button class="delete" @click="deletePost">Delete Post</button>
         </div>
+        <div>
+          <i class="fa-solid fa-bookmark" 
+          :class="{active : save_toggle}"
+           @click="savedPost">
+          </i>
+          <div class="hide">Save Post</div>
+        </div>
     </div>
     <div v-else>
         <Spinner></Spinner>
@@ -33,6 +40,7 @@ import { ref } from 'vue';
             // when to use this.$route.params.id
             let route = useRoute(); // same => this.$route
             let router = useRouter();
+            let save_toggle = ref(false)
             let {post, error, load} = getPost(route.params.id);
             load();
             let deletePost = async()=>{
@@ -40,7 +48,22 @@ import { ref } from 'vue';
                 await db.collection("posts").doc(id).delete();
                 router.push({name:'home'})
             }
-            return {post, error, load, deletePost, admin}
+            let savedPost = async()=>{
+              save_toggle.value = !save_toggle.value
+              console.log(save_toggle.value)
+              // let id = props.id;
+              // let icon = document.querySelector('.fa-bookmark');
+              // let dbRef = db.collection("posts").doc(id)
+              // let updateDb = db.collection("posts").doc(id).onSnapshot(()=>{
+              //   dbRef.update({
+              //   save_post : true
+              //   })
+              // })
+              // if (updateDb){
+              //   icon.style.color = "#ff8800";
+              // }
+            }
+            return {post, error, load, deletePost, admin, savedPost, save_toggle}
         }
     }
 </script>
@@ -50,6 +73,13 @@ import { ref } from 'vue';
         margin: 0 40px 30px;
         padding-bottom: 30px;
         border-bottom: 1px dashed #e7e7e7;
+      }
+      .post i {
+        position: fixed;
+        left: 90%;
+        top: 19%;
+        font-size: 30px;
+        cursor: pointer;
       }
       .post h2 {
         display: inline-block;
@@ -73,5 +103,22 @@ import { ref } from 'vue';
       }
       button.delete{
         margin: 0 auto;
+      }
+      .hide {
+        display: none;
+      }
+      .post i:hover + .hide {
+        display: block;
+        color: gray;
+        position: absolute;
+        left: 83%;
+        top: 19%;
+        z-index: 1;
+      }
+      .fa-bookmark{
+        color: gray;
+      }
+      .active {
+        color: #ff8800;
       }
 </style>
