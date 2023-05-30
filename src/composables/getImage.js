@@ -20,7 +20,6 @@ let getImage = (userId, defalut_image) => {
           style(imgElement)
           localStorage.setItem('imgurl', snapshot.val().profile_picture);
           container.appendChild(imgElement);
-          console.log('hello')
         }else{
           // when new user or not upload any photo this will work 
           let container = document.querySelector('.profile_img');

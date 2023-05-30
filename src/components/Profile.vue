@@ -16,7 +16,7 @@
 import getUser from '@/composables/getUser';
 import imageUpload from '@/composables/imageUpload';
 import getImage from '@/composables/getImage'
-import { onMounted, onUpdated } from 'vue';
+import { onMounted } from 'vue';
     export default {
         setup(){
           let {user} = getUser();

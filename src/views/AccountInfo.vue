@@ -10,9 +10,11 @@
             <button @click="logout">Logout</button>
         </div>
     </div>
+    <SavedPost></SavedPost>
 </template>
 
 <script>
+import SavedPost from '../components/SavedPost'
 import JoinDate from '../components/JoinDate'
 import Profile from '../components/Profile'
 import useLogout from '@/composables/useLogout';
@@ -20,6 +22,7 @@ import { useRouter } from 'vue-router';
 
     export default {
   components: {
+    SavedPost,
     JoinDate, Profile },
         setup(props, content){
         let {error, logoutAcc} = useLogout();

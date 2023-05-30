@@ -5,9 +5,9 @@
         <div v-if="admin">
           <button class="delete" @click="deletePost">Delete Post</button>
         </div>
-        <div>
+        <div v-if=" user && user.displayName != 'guest' ">
           <i class="fa-solid fa-bookmark" 
-          :class="{active : post.save_post}"
+          :class="{active : save_post_val}"
            @click="savePostHandle">
           </i>
           <div class="hide">Save Post</div>
@@ -26,14 +26,16 @@ import { useRoute } from 'vue-router';
 import { useRouter } from 'vue-router';
 import { db} from '@/firebase/config';
 import getUser from '@/composables/getUser';
-import { ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 import savedPost from '@/composables/savePost'
+import saveOrNot from '@/composables/checkSavePost'
 
     export default {
   components: { Spinner },
         props : ['id'],
         setup(props){
             let {user} = getUser();
+            let userId = user.value.uid;
             let admin = ref(false);
             if (user.value.displayName === 'minkhant'){
               admin = true
@@ -51,11 +53,27 @@ import savedPost from '@/composables/savePost'
                 await db.collection("posts").doc(id).delete();
                 router.push({name:'home'})
             }
-            
+
             let savePostHandle = ()=>{
-              savedPost(save_toggle, props.id)
+              savedPost(save_toggle, props.id, userId)
             }
-            return {post, error, load, deletePost, admin, savePostHandle, save_toggle}
+            let save_or_not = ref(null);
+            const save_post = async()=>{
+              const save = await saveOrNot(props.id, userId);
+              save_or_not.value = save
+            }
+            save_post();
+            let save_post_val = ref(null);
+            watch(save_or_not, (newValue) => {
+              if (newValue){
+                save_post_val.value = newValue.value.save_post;
+              }else{
+                save_post_val.value = false;
+              }
+              console.log('Save Post Value:', newValue.value.save_post);
+            });
+            
+            return {post, error, load, deletePost, admin, savePostHandle, save_toggle, user, save_post_val}
         }
     }
 </script>
@@ -102,7 +120,7 @@ import savedPost from '@/composables/savePost'
       .post i:hover + .hide {
         display: block;
         color: gray;
-        position: absolute;
+        position: fixed;
         left: 83%;
         top: 19%;
         z-index: 1;
