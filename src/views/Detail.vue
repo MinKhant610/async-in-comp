@@ -5,13 +5,6 @@
         <div v-if="admin">
           <button class="delete" @click="deletePost">Delete Post</button>
         </div>
-        <div v-if=" user && user.displayName != 'guest' ">
-          <i class="fa-solid fa-bookmark" 
-          :class="{active : save_post_val}"
-           @click="savePostHandle">
-          </i>
-          <div class="hide">Save Post</div>
-        </div>
     </div>
     <div v-else>
         <Spinner></Spinner>
@@ -26,16 +19,14 @@ import { useRoute } from 'vue-router';
 import { useRouter } from 'vue-router';
 import { db} from '@/firebase/config';
 import getUser from '@/composables/getUser';
-import { computed, ref, watch } from 'vue';
-import savedPost from '@/composables/savePost'
-import saveOrNot from '@/composables/checkSavePost'
+import { ref } from 'vue';
+
 
     export default {
   components: { Spinner },
         props : ['id'],
         setup(props){
             let {user} = getUser();
-            let userId = user.value.uid;
             let admin = ref(false);
             if (user.value.displayName === 'minkhant'){
               admin = true
@@ -43,7 +34,6 @@ import saveOrNot from '@/composables/checkSavePost'
             // when to use this.$route.params.id
             let route = useRoute(); // same => this.$route
             let router = useRouter();
-            let save_toggle = ref(false);
             
             let {post, error, load} = getPost(route.params.id);
             load(); // show post detail
@@ -54,26 +44,7 @@ import saveOrNot from '@/composables/checkSavePost'
                 router.push({name:'home'})
             }
 
-            let savePostHandle = ()=>{
-              savedPost(save_toggle, props.id, userId)
-            }
-            let save_or_not = ref(null);
-            const save_post = async()=>{
-              const save = await saveOrNot(props.id, userId);
-              save_or_not.value = save
-            }
-            save_post();
-            let save_post_val = ref(null);
-            watch(save_or_not, (newValue) => {
-              if (newValue){
-                save_post_val.value = newValue.value.save_post;
-              }else{
-                save_post_val.value = false;
-              }
-              console.log('Save Post Value:', newValue.value.save_post);
-            });
-            
-            return {post, error, load, deletePost, admin, savePostHandle, save_toggle, user, save_post_val}
+            return {post, error, load, deletePost, admin, user}
         }
     }
 </script>
@@ -84,13 +55,7 @@ import saveOrNot from '@/composables/checkSavePost'
         padding-bottom: 30px;
         border-bottom: 1px dashed #e7e7e7;
       }
-      .post i {
-        position: fixed;
-        left: 90%;
-        top: 19%;
-        font-size: 30px;
-        cursor: pointer;
-      }
+
       .post h2 {
         display: inline-block;
         position: relative;
@@ -114,20 +79,7 @@ import saveOrNot from '@/composables/checkSavePost'
       button.delete{
         margin: 0 auto;
       }
-      .hide {
-        display: none;
-      }
-      .post i:hover + .hide {
-        display: block;
-        color: gray;
-        position: fixed;
-        left: 83%;
-        top: 19%;
-        z-index: 1;
-      }
-      .fa-bookmark{
-        color: gray;
-      }
+      
       .active {
         color: #ff8800;
       }
